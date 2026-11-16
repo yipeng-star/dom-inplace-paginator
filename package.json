@@ -1,0 +1,67 @@
+{
+  "name": "dom-inplace-paginator",
+  "version": "0.2.0",
+  "description": "Dependency-free DOM paginator for in-place page previews, print-ready page breaks, and HTML, Vue, and React integrations.",
+  "keywords": [
+    "pagination",
+    "page-break",
+    "print",
+    "dom",
+    "html",
+    "vue",
+    "react"
+  ],
+  "author": {
+    "name": "yipeng-star",
+    "url": "https://github.com/yipeng-star"
+  },
+  "homepage": "https://github.com/yipeng-star/dom-inplace-paginator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yipeng-star/dom-inplace-paginator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yipeng-star/dom-inplace-paginator/issues"
+  },
+  "main": "./src/index.js",
+  "module": "./src/core.mjs",
+  "exports": {
+    ".": {
+      "import": "./src/core.mjs",
+      "require": "./src/index.js"
+    },
+    "./html": "./src/html.mjs",
+    "./vue": "./src/vue.mjs",
+    "./react": "./src/react.mjs"
+  },
+  "files": [
+    "src",
+    "examples",
+    "demo.html"
+  ],
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "react": ">=18 <20"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/index.js && node --test",
+    "prepublishOnly": "npm run check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="zh-CN">
+  <meta charset="utf-8" /><title>原地分页测试</title>
+  <style>
+    body {
+      margin: 0;
+      background: #e5e7eb;
+      font: 16px/1.8 system-ui;
+    }
+    nav {
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 10;
+    }
+    button,
+    input {
+      padding: 8px;
+      margin: 4px;
+    }
+    #content {
+      margin: 24px auto;
+      background: white;
+      width: 800px;
+      box-sizing: border-box;
+      padding: 48px;
+    }
+    p {
+      margin: 12px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td,
+    th {
+      border: 1px solid #bbb;
+      padding: 10px;
+    }
+    video {
+      display: block;
+      background: #222;
+    }
+    #status {
+      color: #2563eb;
+    }
+    .dip-header,
+    .dip-footer {
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+  <style>
+    nav fieldset {
+      display: inline-block;
+      vertical-align: top;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin: 4px;
+      padding: 8px;
+      font-size: 13px;
+    }
+    nav input[type="number"] {
+      width: 65px;
+    }
+    nav input[type="text"] {
+      width: 160px;
+    }
+    nav input[type="color"] {
+      width: 44px;
+      padding: 2px;
+    }
+    nav legend {
+      font-weight: 600;
+    }
+    #imagePreview {
+      max-width: 120px;
+      max-height: 38px;
+      vertical-align: middle;
+    }
+    nav {
+      position: relative;
+    }
+    .header-art {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <style>
+    nav {
+      padding: 24px;
+      background: #f8fafc;
+      border-bottom: 1px solid #dce3ed;
+      color: #334155;
+      font: 14px/1.5 system-ui;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    nav * {
+      box-sizing: border-box;
+    }
+    nav .settings-title {
+      grid-column: 1/-1;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    nav .settings-title strong {
+      font-size: 20px;
+      color: #0f172a;
+    }
+    nav .settings-title span {
+      font-size: 12px;
+      color: #64748b;
+    }
+    nav fieldset {
+      min-width: 0;
+      margin: 0;
+      padding: 14px;
+      background: white;
+      border: 1px solid #dce3ed;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: flex-end;
+      gap: 10px 12px;
+      box-shadow: 0 2px 6px #0f172a04;
+    }
+    nav legend {
+      padding: 0 6px;
+      color: #0f172a;
+      font-size: 14px;
+    }
+    nav label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      color: #64748b;
+      min-width: 0;
+    }
+    nav label:has(input[type="checkbox"]) {
+      flex-direction: row;
+      align-items: center;
+      color: #334155;
+    }
+    nav .two-input-row {
+      grid-column: 1 / -1;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    nav .two-input-row label {
+      min-width: 0;
+    }
+    nav br {
+      display: none;
+    }
+    nav input,
+    nav select,
+    nav button {
+      font: inherit;
+      margin: 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      min-height: 36px;
+      background: #fff;
+      color: #334155;
+    }
+    nav input[type="number"],
+    nav input[type="text"],
+    nav input[type="color"],
+    nav input[type="file"],
+    nav select {
+      width: 100%;
+      padding: 7px 10px;
+    }
+    nav input[type="checkbox"] {
+      min-height: 0;
+      width: 16px;
+      height: 16px;
+      accent-color: #2563eb;
+    }
+    nav input[type="color"] {
+      padding: 4px;
+      height: 36px;
+    }
+    nav input[type="file"] {
+      font-size: 12px;
+      padding: 5px;
+    }
+    nav input[type="file"]::file-selector-button {
+      border: 0;
+      border-radius: 4px;
+      padding: 5px 10px;
+      background: #eff6ff;
+      color: #2563eb;
+      margin-right: 10px;
+    }
+    nav input:focus-visible,
+    nav select:focus-visible,
+    nav button:focus-visible {
+      outline: 3px solid #bfdbfe;
+      outline-offset: 2px;
+    }
+    nav button {
+      cursor: pointer;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    nav button:hover {
+      background: #f1f5f9;
+    }
+    nav button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+    nav #imagePreview {
+      border-radius: 6px;
+      max-height: 44px;
+      max-width: 140px;
+      object-fit: contain;
+    }
+    nav #clearImage {
+      color: #64748b;
+      font-size: 12px;
+      min-height: 30px;
+      padding: 5px 10px;
+    }
+    nav > div:last-child:not(.settings-title) {
+      grid-column: 1/-1;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 4px;
+    }
+    nav #go {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+      padding: 10px 20px;
+    }
+    nav #go:hover {
+      background: #1d4ed8;
+    }
+    nav #status {
+      flex: 1 1 240px;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    @media (min-width: 1200px) {
+      nav {
+        grid-template-columns: 0.7fr 1.5fr 1fr 1fr;
+      }
+    }
+    @media (max-width: 580px) {
+      nav {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 12px;
+      }
+      nav .settings-title {
+        display: block;
+      }
+      nav .settings-title span {
+        display: block;
+        margin-top: 4px;
+      }
+    }
+  </style>
+  <nav aria-label="分页设置">
+    <div class="settings-title">
+      <strong>分页设置</strong><span>调整页面样式，应用后预览效果</span>
+    </div>
+    <fieldset>
+      <legend>页面与打印</legend>
+      <label
+        >分页标记类名<input
+          id="breakClass"
+          type="text"
+          value="page_print"
+          placeholder="例如 page_print"
+      /></label>
+      <label
+        >页面高度（px） <input id="height" type="number" min="200" value="700"
+      /></label>
+    </fieldset>
+    <fieldset>
+      <legend>页眉</legend>
+      <label><input id="headerShow" type="checkbox" checked />显示</label
+      ><label
+        >高度
+        <input id="headerHeight" type="number" min="0" value="60" /></label
+      ><label
+        >文字
+        <input id="headerText" type="text" value="原地分页 · 测试文档" /></label
+      ><br /><label
+        >背景图片 <input id="headerImage" type="file" accept="image/*" /></label
+      ><img id="imagePreview" hidden alt="页眉图片预览" /><button
+        id="clearImage"
+        type="button"
+      >
+        移除图片
+      </button>
+    </fieldset>
+    <fieldset>
+      <legend>页脚</legend>
+      <label><input id="footerShow" type="checkbox" checked />显示</label
+      ><label
+        >高度
+        <input id="footerHeight" type="number" min="0" value="30" /></label
+      ><label
+        >文字 <input id="footerText" type="text" value="第 {page} / {total} 页"
+      /></label>
+    </fieldset>
+    <fieldset>
+      <legend>版心线</legend>
+      <label><input id="frameShow" type="checkbox" checked />显示</label
+      ><label>颜色 <input id="frameColor" type="color" value="#0089ff" /></label
+      ><label
+        >粗细
+        <input
+          id="frameWidth"
+          type="number"
+          min="0"
+          max="10"
+          value="1" /></label
+      ><label
+        >线型
+        <select id="frameStyle">
+          <option value="solid">实线</option>
+          <option value="dashed">虚线</option>
+          <option value="dotted">点线</option>
+        </select></label
+      >
+      <div class="two-input-row" role="group" aria-label="版心线左右距离">
+        <label
+          >左距离（px）
+          <input id="frameLeft" type="number" min="0" value="48"
+        /></label>
+        <label
+          >右距离（px）
+          <input id="frameRight" type="number" min="0" value="48"
+        /></label>
+      </div>
+    </fieldset>
+    <div>
+      <button id="go">应用设置并分页</button
+      ><button id="restore">还原内容</button
+      ><span id="status" role="status"
+        >设置完成后点击应用。页脚支持 {page} 和 {total}。</span
+      >
+    </div>
+  </nav>
+  <style>
+    #content h1 {
+      font-size: 30px;
+      color: #0f172a;
+    }
+    #content h2 {
+      font-size: 21px;
+      color: #1e40af;
+      margin: 24px 0 12px;
+      border-bottom: 1px solid #dbeafe;
+      padding-bottom: 8px;
+    }
+    #content h3 {
+      font-size: 17px;
+    }
+    #content .muted {
+      color: #64748b;
+      font-size: 13px;
+    }
+    #content .formula {
+      padding: 18px;
+      margin: 16px 0;
+      border: 1px solid #dbeafe;
+      background: #f8fafc;
+      text-align: center;
+      border-radius: 8px;
+    }
+    #content math {
+      font-size: 22px;
+    }
+    #content figure {
+      margin: 18px 0;
+    }
+    #content figcaption {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+    #content img {
+      display: block;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    #content th {
+      background: #eff6ff;
+      text-align: left;
+    }
+    #content td {
+      font-size: 14px;
+    }
+    #content blockquote {
+      margin: 16px 0;
+      padding: 12px 18px;
+      border-left: 4px solid #60a5fa;
+      background: #eff6ff;
+    }
+    #content .card {
+      padding: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+    #content li {
+      margin: 8px 0;
+    }
+  </style>
+  <style>
+    @media print {
+      nav {
+        display: none !important;
+      }
+      body {
+        background: white;
+      }
+      #content {
+        box-shadow: none;
+      }
+    }
+  </style>
+  <style>
+    #errorToast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      width: max-content;
+      max-width: calc(100vw - 32px);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid #fca5a5;
+      border-left: 5px solid #dc2626;
+      border-radius: 10px;
+      background: #fff1f2;
+      color: #991b1b;
+      box-shadow: 0 8px 32px #7f1d1d33;
+      font: 600 15px/1.6 system-ui;
+    }
+    #errorToast[hidden] {
+      display: none;
+    }
+    #errorToast .toast-icon {
+      flex: none;
+      font-size: 22px;
+    }
+    #errorToast button {
+      flex: none;
+      border: 0;
+      background: transparent;
+      color: #991b1b;
+      cursor: pointer;
+      font-size: 22px;
+      padding: 0 4px;
+      margin: 0;
+    }
+    #errorToast button:focus-visible {
+      outline: 2px solid #dc2626;
+      outline-offset: 3px;
+    }
+    @media print {
+      #errorToast {
+        display: none !important;
+      }
+    }
+  </style>
+  <div
+    id="errorToast"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    hidden
+  >
+    <span class="toast-icon" aria-hidden="true">⚠</span
+    ><span id="errorToastMessage"></span>
+    <button id="closeToast" type="button" aria-label="关闭错误提示">×</button>
+  </div>
+  <style>
+    :root {
+      --settings-width: 360px;
+    }
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background: #e5e7eb;
+    }
+    nav[aria-label="分页设置"] {
+      position: fixed;
+      inset: 0 0 0 auto;
+      width: var(--settings-width);
+      height: 100dvh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 20px;
+      border: 0;
+      border-left: 1px solid #dce3ed;
+      box-shadow: -6px 0 24px #0f172a08;
+      z-index: 20;
+    }
+    nav .settings-title {
+      display: block;
+      flex: none;
+    }
+    nav .settings-title strong {
+      display: block;
+      font-size: 20px;
+    }
+    nav .settings-title span {
+      display: block;
+      margin-top: 5px;
+    }
+    nav fieldset {
+      flex: none;
+      width: 100%;
+    }
+    nav > div:last-child:not(.settings-title) {
+      position: sticky;
+      bottom: -20px;
+      flex: none;
+      margin: 0 -20px -20px;
+      padding: 16px 20px;
+      background: #f8fafc;
+      border-top: 1px solid #dce3ed;
+      box-shadow: 0 -6px 16px #0f172a05;
+    }
+    nav #go {
+      flex: 1;
+    }
+    nav #status {
+      flex-basis: 100%;
+    }
+    #documentViewport {
+      position: fixed;
+      inset: 0 var(--settings-width) 0 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    #content {
+      margin: 0 auto 24px;
+      box-shadow: 0 4px 24px #0f172a12;
+    }
+    @media (max-width: 700px) {
+      :root {
+        --settings-width: 280px;
+      }
+      #documentViewport {
+        padding: 16px;
+      }
+      nav[aria-label="分页设置"] {
+        padding: 16px;
+      }
+      nav > div:last-child:not(.settings-title) {
+        bottom: -16px;
+        margin: 0 -16px -16px;
+        padding: 12px 16px;
+      }
+    }
+    @media print {
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+      }
+      nav[aria-label="分页设置"] {
+        display: none !important;
+      }
+      #documentViewport {
+        position: static;
+        overflow: visible;
+        padding: 0;
+      }
+      #content {
+        box-shadow: none;
+      }
+    }
+  </style>
+  <div
+    id="documentViewport"
+    role="region"
+    aria-label="分页文档预览"
+    tabindex="0"
+  >
+    <main id="content">
+      <h1>图文与数学 · 综合分页测试</h1>
+      <p class="muted">
+        包含嵌套正文、混排、长表格、图片、公式、列表与整块内容。调整页高后重新应用，对比断点变化。
+      </p>
+      <h2>01 / 多层嵌套正文</h2>
+      <section>
+        <div><article id="paragraphs"></article></div>
+      </section>
+      <h3>富文本与行内样式</h3>
+      <p>
+        这是一段包含 <strong>加粗重点</strong>、<em>斜体解释</em>、<span
+          style="color: #dc2626"
+          >红色提示</span
+        >以及 English words / 2026
+        的混排内容。富文本段落保留内部结构，在页尾空间不足时可能整体换页。
+      </p>
+      <blockquote data-page-atomic>
+        观察要点：分页后的正文不应被页眉覆盖；每页应有页脚，图片及数学公式不应从中间切断。
+      </blockquote>
+      <h2>02 / 图片尺寸与图文组合</h2>
+      <p>
+        宽图、窄图以及带说明文字的整体图片卡片，用于验证不同宽度下的候选识别。
+      </p>
+      <figure>
+        <img
+          class="sample-image"
+          width="600"
+          height="220"
+          alt="宽幅山景示意图"
+        />
+        <figcaption>图 1：宽幅图片，空间不足时整张移至下一页。</figcaption>
+      </figure>
+      <figure>
+        <img
+          class="sample-image"
+          width="180"
+          height="130"
+          alt="窄幅山景示意图"
+        />
+        <figcaption>
+          图 2：窄图，宽度小于正文一半，仍需作为不可拆元素处理。
+        </figcaption>
+      </figure>
+      <figure data-page-atomic class="card">
+        <img class="sample-image" width="400" height="160" alt="组合图片卡片" />
+        <figcaption>图 3：图片和图注设置为一个整体，共同换页。</figcaption>
+      </figure>
+      <h2>03 / 数学公式</h2>
+      <p>
+        以下使用原生
+        MathML，无需联网。公式块标记为不可拆分，保持分数、根号与积分完整。
+      </p>
+      <div class="formula" data-page-atomic>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"
+          ><mi>x</mi><mo>=</mo
+          ><mfrac
+            ><mrow
+              ><mo>−</mo><mi>b</mi><mo>±</mo
+              ><msqrt
+                ><msup><mi>b</mi><mn>2</mn></msup
+                ><mo>−</mo><mn>4</mn><mi>a</mi><mi>c</mi></msqrt
+              ></mrow
+            ><mrow><mn>2</mn><mi>a</mi></mrow></mfrac
+          ></math
+        >
+      </div>
+      <p>例 1：求解二次方程 x² − 5x + 6 = 0，使用上式可得到两个实数根。</p>
+      <div class="formula" data-page-atomic>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"
+          ><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup
+          ><msup><mi>x</mi><mn>2</mn></msup
+          ><mi>d</mi><mi>x</mi><mo>=</mo
+          ><mfrac><mn>1</mn><mn>3</mn></mfrac></math
+        >
+      </div>
+      <div class="formula" data-page-atomic>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"
+          ><munderover
+            ><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow
+            ><mi>n</mi></munderover
+          ><mi>k</mi><mo>=</mo
+          ><mfrac
+            ><mrow
+              ><mi>n</mi><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn
+              ><mo>)</mo></mrow
+            ><mn>2</mn></mfrac
+          ></math
+        >
+      </div>
+      <h2>04 / 跨页数据表格</h2>
+      <p>
+        表格包含不同长度的文字，用于检查行高变化、跨页拆分、列宽以及重复表头。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 55px">序号</th>
+            <th style="width: 100px">类别</th>
+            <th>描述与测试目标</th>
+            <th style="width: 65px">得分</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <h2>05 / 列表与独立内容块</h2>
+      <ol>
+        <li>检查所有页面中的页眉图片是否一致。</li>
+        <li>调整版心线的颜色、粗细和线型，再次应用设置。</li>
+        <li>缩小页面高度，观察长文本、图片与表格的换页位置。</li>
+        <li>关闭页眉或页脚，比较正文可用空间的变化。</li>
+      </ol>
+      <div class="card" data-page-atomic>
+        <h3>不可拆说明卡片</h3>
+        <p>
+          标题和这段正文作为整体移动。若卡片超过整页可用高度，分页器将提示无法分页。
+        </p>
+      </div>
+      <h3>小型合并单元格表格（整体换页）</h3>
+      <table data-page-atomic>
+        <tbody>
+          <tr>
+            <th colspan="3">实验记录</th>
+          </tr>
+          <tr>
+            <td rowspan="2">第一组</td>
+            <td>样本 A</td>
+            <td>24 ℃</td>
+          </tr>
+          <tr>
+            <td>样本 B</td>
+            <td>26 ℃</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>06 / 视频占位</h2>
+      <video
+        width="300"
+        height="170"
+        controls
+        aria-label="不可拆视频尺寸测试"
+      ></video>
+      <p class="muted">无视频源的占位区域，仅用于测试整体换页，不播放视频。</p>
+      <h2 data-page-break-before>07 / 强制新页附录</h2>
+      <p>此章节主动从新页开始。可检查最终页的页眉、页脚和版心线是否完整。</p>
+      <div id="appendix"></div>
+    </main>
+  </div>
+  <script src="src/index.js"></script>
+  <script>
+    for (let i = 0; i < 5; i++) {
+      const p = document.createElement("p")
+      p.textContent =
+        `第 ${i + 1} 段：` +
+        "清晨的校园里，学生们记录植物的生长变化，并使用图表整理观察结果。文字、插图与数据共同组成一份完整的学习报告。".repeat(
+          i === 2 ? 14 : 4,
+        )
+      document.getElementById("paragraphs").append(p)
+    }
+    for (let i = 0; i < 24; i++) {
+      const tr = document.createElement("tr")
+      tr.innerHTML = `<td>${i + 1}</td><td>${["观察记录", "公式推导", "图文分析"][i % 3]}</td><td>${"记录实验数据，并说明观察结果与预期之间的差异。".repeat(i % 4 === 0 ? 3 : 1)}</td><td>${80 + (i % 20)}</td>`
+      document.getElementById("rows").append(tr)
+    }
+    const landscape =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="220" viewBox="0 0 600 220"><rect width="600" height="220" fill="#e0f2fe"/><circle cx="480" cy="55" r="28" fill="#fbbf24"/><path d="M0 220 170 35 340 220Z" fill="#93c5fd"/><path d="M180 220 380 60 600 220Z" fill="#3b82f6"/><path d="M0 190 Q150 150 300 190 T600 180 V220 H0Z" fill="#059669"/></svg>'
+    document
+      .querySelectorAll(".sample-image")
+      .forEach(
+        (img) =>
+          (img.src =
+            "data:image/svg+xml;charset=utf-8," +
+            encodeURIComponent(landscape)),
+      )
+    for (let i = 0; i < 3; i++) {
+      const p = document.createElement("p")
+      p.textContent =
+        "附录记录：" +
+        "分页完成后，请核对文字是否连续，表格行是否齐全，以及页码总数是否正确。".repeat(
+          6,
+        )
+      document.getElementById("appendix").append(p)
+    }
+    const byId = (id) => document.getElementById(id)
+    let toastTimer
+    function hideErrorToast() {
+      clearTimeout(toastTimer)
+      byId("errorToast").hidden = true
+    }
+    function showErrorToast(error) {
+      clearTimeout(toastTimer)
+      byId("errorToastMessage").textContent =
+        error?.message || "操作失败，请检查设置"
+      byId("errorToast").hidden = false
+      toastTimer = setTimeout(hideErrorToast, 7000)
+    }
+    byId("closeToast").onclick = hideErrorToast
+    const originalContent = byId("content").cloneNode(true)
+    let backgroundUrl = "",
+      imageVersion = 0
+    function resetContent() {
+      byId("content").replaceWith(originalContent.cloneNode(true))
+    }
+    byId("restore").onclick = () => {
+      resetContent()
+      byId("status").textContent = "已还原，可修改设置后重新分页"
+    }
+    byId("clearImage").onclick = () => {
+      imageVersion++
+      backgroundUrl = ""
+      byId("headerImage").value = ""
+      byId("imagePreview").removeAttribute("src")
+      byId("imagePreview").hidden = true
+    }
+    byId("headerImage").onchange = async (event) => {
+      const version = ++imageVersion,
+        file = event.target.files[0]
+      if (!file) return
+      try {
+        if (!file.type.startsWith("image/")) throw new Error("请选择图片文件")
+        const url = await new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = () => reject(new Error("图片读取失败"))
+          reader.readAsDataURL(file)
+        })
+        const image = new Image()
+        image.src = url
+        await image.decode()
+        if (version !== imageVersion) return
+        backgroundUrl = url
+        byId("imagePreview").src = url
+        byId("imagePreview").hidden = false
+        byId("status").textContent = "图片已准备好，点击应用设置将在每一页显示"
+      } catch (error) {
+        if (version === imageVersion) {
+          byId("status").textContent = error.message
+          showErrorToast(error)
+        }
+      }
+    }
+    byId("go").onclick = async () => {
+      hideErrorToast()
+      const controls = [
+        ...document.querySelectorAll("nav input,nav button,nav select"),
+      ]
+      controls.forEach((e) => (e.disabled = true))
+      try {
+        for (const [id, label] of [
+          ["height", "页面高度"],
+          ["headerHeight", "页眉高度"],
+          ["footerHeight", "页脚高度"],
+          ["frameLeft", "版心线左距离"],
+          ["frameRight", "版心线右距离"],
+        ]) {
+          const input = byId(id)
+          const value = input.valueAsNumber
+          if (
+            !Number.isFinite(value) ||
+            value < 0 ||
+            (id === "height" && value === 0)
+          ) {
+            throw new Error(
+              `非法值，无法分页：${label}${id === "height" ? "必须大于 0" : "不能为负数或空值"}`,
+            )
+          }
+        }
+        const headerVisible = byId("headerShow").checked,
+          footerVisible = byId("footerShow").checked
+        const text = byId("headerText").value,
+          footer = byId("footerText").value,
+          bg = backgroundUrl
+        const paginator = DomPaginator.createPaginator({
+          page: { height: Number(byId("height").value) },
+          print: {
+            breakClass: byId("breakClass").value.trim(),
+            injectStyles: true,
+          },
+          header: {
+            height: headerVisible ? Number(byId("headerHeight").value) : 0,
+            render: () => {
+              const el = document.createElement("div")
+              el.className = "header-art"
+              el.textContent = text
+              if (bg) el.style.backgroundImage = `url("${bg}")`
+              return el
+            },
+          },
+          footer: {
+            height: footerVisible ? Number(byId("footerHeight").value) : 0,
+            render: ({ pageNumber, totalPages }) =>
+              footer
+                .replaceAll("{page}", String(pageNumber))
+                .replaceAll("{total}", String(totalPages)),
+          },
+          contentFrame: {
+            visible: byId("frameShow").checked,
+            color: byId("frameColor").value,
+            width: Number(byId("frameWidth").value),
+            style: byId("frameStyle").value,
+            left: byId("frameLeft").valueAsNumber,
+            right: byId("frameRight").valueAsNumber,
+          },
+        })
+        resetContent()
+        const result = await paginator.paginate(byId("content"))
+        byId("status").textContent =
+          `完成，共 ${result.pageCount} 页。修改设置后可再次应用。`
+      } catch (e) {
+        byId("status").textContent = e.message
+        showErrorToast(e)
+        console.error(e)
+      } finally {
+        controls.forEach((e) => (e.disabled = false))
+      }
+    }
+  </script>
+</html>
