@@ -135,9 +135,9 @@ export default function Document() {
 - `assetTimeout`: 字体和图片等待超时
 - `onError(error)`: 分页错误回调
 
-## 本地 Demo
+## 在线 Demo
 
-克隆仓库后直接打开 `demo.html`，无需安装依赖。右侧工具栏可调整页面、页眉、页脚、打印类名和版心线。
+无需安装或克隆仓库，直接打开 [在线分页 Demo](https://yipeng-star.github.io/dom-inplace-paginator/demo.html) 即可体验。页面右侧工具栏可调整页面、页眉、页脚、打印类名和版心线。
 
 ## 已知限制
 
