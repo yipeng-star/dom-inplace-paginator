@@ -52,8 +52,8 @@
     }
   },
   "scripts": {
-    "test": "node --test",
-    "check": "node --check src/index.js && node --test",
+    "test": "node --check src/index.js",
+    "check": "npm test",
     "prepublishOnly": "npm run check"
   },
   "engines": {
