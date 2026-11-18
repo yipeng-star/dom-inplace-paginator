@@ -135,9 +135,11 @@ export default function Document() {
 - `assetTimeout`: 字体和图片等待超时
 - `onError(error)`: 分页错误回调
 
-## 在线 Demo
+## 官网与在线体验
 
-无需安装或克隆仓库，直接打开 [在线分页 Demo](https://yipeng-star.github.io/dom-inplace-paginator/demo.html) 即可体验。页面右侧工具栏可调整页面、页眉、页脚、打印类名和版心线。
+直接访问 [项目官网](https://yipeng-star.github.io/dom-inplace-paginator/) 查看 JavaScript、Vue 3、React 和 HTML 接入示例、配置表格与表格分页说明，无需安装或克隆仓库。
+
+[在线分页实验台](https://yipeng-star.github.io/dom-inplace-paginator/demo.html) 可直接操作：调整页面高度、页眉、页脚、打印类名与版心线，并观察长表格按行跨页和重复表头的效果。
 
 ## 已知限制
 

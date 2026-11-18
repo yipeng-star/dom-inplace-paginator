@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="dom-inplace-paginator 官网：零运行时依赖的 DOM 分页器。查看 HTML、Vue 3、React 接入示例、配置表格，并在线试用分页工具。"
+    />
+    <meta name="theme-color" content="#101b32" />
+    <link rel="canonical" href="https://yipeng-star.github.io/dom-inplace-paginator/" />
+    <link rel="stylesheet" href="./assets/site.css" />
+    <script defer src="./assets/site.js"></script>
+    <title>dom-inplace-paginator · DOM 分页器官网</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳转到主要内容</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./index.html" aria-label="dom-inplace-paginator 官网首页">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
+          <span class="brand-name">dom-inplace-paginator<small>DOM pagination toolkit</small></span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#features">特性</a>
+          <a href="#quickstart">接入</a>
+          <a href="#tables">表格分页</a>
+          <a href="#api">配置表</a>
+          <a class="nav-demo" href="./demo.html">在线试用 <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dot"></span> OPEN SOURCE · VERSION 0.2.0</p>
+            <h1 id="hero-title">把长内容，<br /><span>排成真正的页。</span></h1>
+            <p class="hero-description">
+              对已有 DOM 直接分页。普通表格可按行续页并重复表头，图文块可整体换页；页眉、页脚、版心线与打印断点都能配置。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="./demo.html">打开在线实验台 <span aria-hidden="true">↗</span></a>
+              <a class="button button-ghost" href="#quickstart">查看接入方式 <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="install-line" aria-label="npm 安装命令">
+              <span class="install-symbol" aria-hidden="true">$</span>
+              <code id="install-command">npm install dom-inplace-paginator</code>
+              <button class="install-copy" type="button" data-copy-target="install-command" aria-label="复制安装命令">复制</button>
+            </div>
+            <p class="hero-support">原生 HTML <span>·</span> Vue 3 <span>·</span> React <span>·</span> 无运行时依赖</p>
+          </div>
+
+          <div class="hero-visual" aria-label="文档分页与重复表头示意">
+            <div class="visual-tag"><span></span> 实时 DOM 排版示意</div>
+            <div class="paper paper-back" aria-hidden="true"></div>
+            <div class="paper paper-front">
+              <div class="paper-header"><span>课堂记录 / 数据报告</span><span>01</span></div>
+              <div class="paper-content">
+                <div class="paper-kicker">DOCUMENT PREVIEW</div>
+                <div class="paper-title">跨页数据表格</div>
+                <div class="paper-rule"></div>
+                <div class="paper-lines"><i></i><i></i></div>
+                <table class="preview-table">
+                  <thead><tr><th>序号</th><th>项目</th><th>结果</th></tr></thead>
+                  <tbody>
+                    <tr><td>01</td><td>观察记录</td><td>完成</td></tr>
+                    <tr><td>02</td><td>公式推导</td><td>完成</td></tr>
+                    <tr><td>03</td><td>图文分析</td><td>完成</td></tr>
+                    <tr><td>04</td><td>实验数据</td><td>待核对</td></tr>
+                  </tbody>
+                </table>
+                <div class="page-indicator"><span class="page-indicator-line"></span> 下一页续表，自动重复表头</div>
+              </div>
+              <div class="paper-footer"><span>dom-inplace-paginator</span><span>第 1 / 2 页</span></div>
+            </div>
+            <div class="visual-note"><span class="note-icon">↳</span><span>保留原有内容结构<br />在页面边界处插入分页</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section section-features" aria-labelledby="features-title">
+        <div class="container">
+          <div class="section-heading">
+            <div><p class="section-label">01 / CAPABILITIES</p><h2 id="features-title">从网页内容到分页文档</h2></div>
+            <p>适合长文预览、文档排版与打印准备。保持你的 HTML 内容，不需要重写成专用文档格式。</p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card"><span class="feature-icon" aria-hidden="true">▤</span><h3>表格按行续页</h3><p>普通 <code>tbody &gt; tr</code> 可跨页移动，拆表时重复 <code>thead</code>，保留列宽。</p></article>
+            <article class="feature-card"><span class="feature-icon" aria-hidden="true">◫</span><h3>内容整体换页</h3><p>图片、视频以及标记了 <code>data-page-atomic</code> 的内容块不会从中间切开。</p></article>
+            <article class="feature-card"><span class="feature-icon" aria-hidden="true">▧</span><h3>页边界可配置</h3><p>页面尺寸、留白、页眉页脚和版心线都可调整；版心线左右距离同时约束正文宽度。</p></article>
+            <article class="feature-card"><span class="feature-icon" aria-hidden="true">↥</span><h3>打印与框架接入</h3><p>自动注入打印分页规则，并提供 HTML、Vue 3 与 React 入口。</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="quickstart" class="section section-start" aria-labelledby="start-title">
+        <div class="container">
+          <div class="section-heading">
+            <div><p class="section-label">02 / GET STARTED</p><h2 id="start-title">选用你熟悉的接入方式</h2></div>
+            <p>安装包后调用分页器；也可以在普通 HTML 页面里直接通过 CDN 引入。分页目标须先挂载到文档中。</p>
+          </div>
+          <div class="start-grid">
+            <div class="code-window">
+              <div class="code-topbar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>快速接入</span><span class="code-topbar-version">v0.2.0</span></div>
+              <div class="code-tabs" role="tablist" aria-label="接入示例">
+                <button id="tab-js" role="tab" aria-controls="panel-js" aria-selected="true" tabindex="0" type="button">JavaScript</button>
+                <button id="tab-vue" role="tab" aria-controls="panel-vue" aria-selected="false" tabindex="-1" type="button">Vue 3</button>
+                <button id="tab-react" role="tab" aria-controls="panel-react" aria-selected="false" tabindex="-1" type="button">React</button>
+                <button id="tab-html" role="tab" aria-controls="panel-html" aria-selected="false" tabindex="-1" type="button">HTML / CDN</button>
+              </div>
+              <section id="panel-js" class="code-panel" role="tabpanel" aria-labelledby="tab-js" tabindex="0"><button class="copy-code" type="button" data-copy-target="code-js">复制代码</button><pre><code id="code-js">import { createPaginator } from "dom-inplace-paginator"
+
+const paginator = createPaginator({
+  page: { width: 800, height: 1080 },
+  footer: {
+    height: 30,
+    render: ({ pageNumber, totalPages }) =&gt;
+      `第 ${pageNumber} / ${totalPages} 页`,
+  },
+})
+
+const result = await paginator.paginate(
+  document.querySelector("#content"),
+)
+console.log(result.pageCount)</code></pre></section>
+              <section id="panel-vue" class="code-panel" role="tabpanel" aria-labelledby="tab-vue" tabindex="0" hidden><button class="copy-code" type="button" data-copy-target="code-vue">复制代码</button><pre><code id="code-vue">&lt;script setup&gt;
+import { vPageBreak } from "dom-inplace-paginator/vue"
+
+const options = {
+  page: { height: 1080 },
+  footer: { height: 30, render: ({ pageNumber }) =&gt; `${pageNumber}` },
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main v-page-break="{ ready: true, options }"&gt;
+    &lt;h1&gt;需要分页的内容&lt;/h1&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre></section>
+              <section id="panel-react" class="code-panel" role="tabpanel" aria-labelledby="tab-react" tabindex="0" hidden><button class="copy-code" type="button" data-copy-target="code-react">复制代码</button><pre><code id="code-react">import { PageBreak } from "dom-inplace-paginator/react"
+
+export default function Document() {
+  return (
+    &lt;PageBreak options={{ page: { height: 1080 } }}&gt;
+      &lt;h1&gt;需要分页的内容&lt;/h1&gt;
+    &lt;/PageBreak&gt;
+  )
+}</code></pre></section>
+              <section id="panel-html" class="code-panel" role="tabpanel" aria-labelledby="tab-html" tabindex="0" hidden><button class="copy-code" type="button" data-copy-target="code-html">复制代码</button><pre><code id="code-html">&lt;script src="https://cdn.jsdelivr.net/npm/dom-inplace-paginator@0.2.0/src/index.js"&gt;&lt;/script&gt;
+
+&lt;main id="content"&gt;
+  &lt;h1&gt;需要分页的内容&lt;/h1&gt;
+&lt;/main&gt;
+
+&lt;script type="module"&gt;
+  const result = await window.DomPaginator
+    .createPaginator({ page: { height: 1080 } })
+    .paginate(document.querySelector("#content"))
+  console.log(result.pageCount)
+&lt;/script&gt;</code></pre></section>
+            </div>
+            <aside class="start-notes" aria-label="接入注意事项">
+              <div class="step"><span>01</span><div><h3>准备内容</h3><p>把要分页的内容放在一个已挂载的 DOM 容器里。</p></div></div>
+              <div class="step"><span>02</span><div><h3>设置页面</h3><p>使用 <code>page</code>、<code>header</code>、<code>footer</code> 等选项定义版式。</p></div></div>
+              <div class="step"><span>03</span><div><h3>执行一次分页</h3><p>分页器直接修改目标 DOM；内容更新后需重建分页区域。</p></div></div>
+              <div class="notes-link"><span>需要完整说明？</span><a href="https://github.com/yipeng-star/dom-inplace-paginator#readme">查看 README <span aria-hidden="true">↗</span></a></div>
+            </aside>
+          </div>
+          <div class="table-wrap integration-wrap"><table class="docs-table"><caption>接入入口速查</caption><thead><tr><th scope="col">环境</th><th scope="col">导入入口</th><th scope="col">使用方式</th></tr></thead><tbody><tr><th scope="row">JavaScript</th><td><code>dom-inplace-paginator</code></td><td><code>createPaginator(options).paginate(element)</code></td></tr><tr><th scope="row">Vue 3</th><td><code>dom-inplace-paginator/vue</code></td><td><code>v-page-break="{ ready, options }"</code></td></tr><tr><th scope="row">React</th><td><code>dom-inplace-paginator/react</code></td><td><code>&lt;PageBreak options={...}&gt;</code></td></tr><tr><th scope="row">普通 HTML</th><td><code>src/index.js</code></td><td><code>window.DomPaginator.createPaginator(options)</code></td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="tables" class="section section-tables" aria-labelledby="tables-title">
+        <div class="container table-section-grid">
+          <div>
+            <p class="section-label">03 / TABLE PAGINATION</p>
+            <h2 id="tables-title">长表格，<br />按行跨页。</h2>
+            <p class="table-intro">使用普通的 <code>thead</code> 和 <code>tbody</code>。当正文空间不足时，分页器会移动表格行，在续页复制表头。</p>
+            <a class="text-link" href="./demo.html">到实验台看真实表格分页 <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="table-rules">
+            <div class="rule-row"><span class="rule-number">01</span><div><strong>普通表格</strong><p><code>tbody &gt; tr</code> 按行处理，续页保留表头与列宽。</p></div></div>
+            <div class="rule-row"><span class="rule-number">02</span><div><strong>合并单元格</strong><p>存在跨行或跨列的表格，给整个 <code>table</code> 加 <code>data-page-atomic</code>。</p></div></div>
+            <div class="rule-row"><span class="rule-number">03</span><div><strong>超高内容</strong><p>单行或整块超过一页可用高度时会报错，需要调整内容或页高。</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="api" class="section section-api" aria-labelledby="api-title">
+        <div class="container">
+          <div class="section-heading"><div><p class="section-label">04 / API REFERENCE</p><h2 id="api-title">常用配置，一表查清</h2></div><p>选项中的长度均为 CSS 像素。页面高度需要包含页眉、页脚和上下留白。</p></div>
+          <div class="table-wrap"><table class="docs-table api-table"><caption>分页器配置选项</caption><thead><tr><th scope="col">配置</th><th scope="col">默认值</th><th scope="col">用途</th></tr></thead><tbody>
+            <tr><th scope="row"><code>page.width / height</code></th><td><code>800 / 1080</code></td><td>页面宽高，决定正文可用区域。</td></tr>
+            <tr><th scope="row"><code>page.gap</code></th><td><code>16</code></td><td>预览时的页间距。</td></tr>
+            <tr><th scope="row"><code>page.padding</code></th><td><code>30 / 48 / 30 / 48</code></td><td>上、右、下、左留白。</td></tr>
+            <tr><th scope="row"><code>header / footer</code></th><td>高度 <code>0</code></td><td>通过 <code>height</code> 和 <code>render({ pageNumber, totalPages })</code> 定义页眉页脚。</td></tr>
+            <tr><th scope="row"><code>contentFrame</code></th><td>默认显示</td><td>版心线颜色、粗细、线型；<code>left / right</code> 同时约束正文左右边界。</td></tr>
+            <tr><th scope="row"><code>print.breakClass</code></th><td><code>page_print</code></td><td>插入的分页元素类名；<code>injectStyles</code> 默认为开启。</td></tr>
+            <tr><th scope="row"><code>maxPages</code></th><td><code>300</code></td><td>允许的最大页数。</td></tr>
+            <tr><th scope="row"><code>assetTimeout</code></th><td><code>3000 ms</code></td><td>等待字体和图片就绪的时间上限。</td></tr>
+          </tbody></table></div>
+          <div class="api-footnote"><span class="info-icon" aria-hidden="true">i</span><p>分页器返回 <code>{ pageCount, breakCount, warnings }</code>。更完整的 DOM 标记、候选规则与限制见 <a href="https://github.com/yipeng-star/dom-inplace-paginator#readme">项目 README</a>。</p></div>
+        </div>
+      </section>
+
+      <section id="playground" class="section section-playground" aria-labelledby="playground-title">
+        <div class="container">
+          <div class="section-heading"><div><p class="section-label">05 / LIVE PLAYGROUND</p><h2 id="playground-title">现在就试一次分页</h2></div><p>下方是可操作的真实 Demo。调整页面高度、页眉页脚和版心线，点击“应用设置并分页”即可观察结果。</p></div>
+          <div class="playground-shell"><div class="playground-toolbar"><div><span class="live-dot"></span> 在线实验台 <span class="playground-path">/demo.html</span></div><a href="./demo.html">全屏打开 <span aria-hidden="true">↗</span></a></div><iframe src="./demo.html" title="dom-inplace-paginator 在线分页实验台" loading="lazy"></iframe></div>
+          <p class="playground-mobile-note">在窄屏设备上，<a href="./demo.html">点击这里全屏打开在线实验台</a>，可横向查看固定宽度的纸张。</p>
+        </div>
+      </section>
+
+      <section class="section section-ending" aria-labelledby="ending-title"><div class="container ending-grid"><div><p class="section-label">BUILD WITH IT</p><h2 id="ending-title">从一页 Demo，接入你的项目。</h2><p>先用在线实验台确认页面尺寸和表格效果，再选择对应入口集成。</p></div><div class="ending-actions"><a class="button button-primary" href="./demo.html">打开在线实验台 <span aria-hidden="true">↗</span></a><a class="button button-outline" href="https://github.com/yipeng-star/dom-inplace-paginator">查看 GitHub 源码 <span aria-hidden="true">↗</span></a></div></div></section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-inner"><span>dom-inplace-paginator <span class="footer-divider">/</span> MIT License</span><div><a href="https://www.npmjs.com/package/dom-inplace-paginator">npm</a><a href="https://github.com/yipeng-star/dom-inplace-paginator">GitHub</a><a href="./demo.html">在线 Demo</a></div></div></footer>
+  </body>
+</html>

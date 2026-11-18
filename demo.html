@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="zh-CN">
-  <meta charset="utf-8" /><title>原地分页测试</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="dom-inplace-paginator 在线分页实验台：调整页面、页眉、页脚、表格分页和版心线并实时预览。" />
+  <title>在线分页实验台 · dom-inplace-paginator</title>
   <style>
     body {
       margin: 0;
@@ -281,6 +284,7 @@
   </style>
   <nav aria-label="分页设置">
     <div class="settings-title">
+      <a class="playground-home" href="./index.html">← 返回项目官网</a>
       <strong>分页设置</strong><span>调整页面样式，应用后预览效果</span>
     </div>
     <fieldset>
@@ -542,6 +546,17 @@
       display: block;
       margin-top: 5px;
     }
+    nav .settings-title .playground-home {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    nav .settings-title .playground-home:hover {
+      text-decoration: underline;
+    }
     nav fieldset {
       flex: none;
       width: 100%;
@@ -575,19 +590,30 @@
       box-shadow: 0 4px 24px #0f172a12;
     }
     @media (max-width: 700px) {
-      :root {
-        --settings-width: 280px;
-      }
-      #documentViewport {
-        padding: 16px;
+      html,
+      body {
+        height: auto;
+        overflow: auto;
       }
       nav[aria-label="分页设置"] {
+        position: static;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        border-left: 0;
+        border-bottom: 1px solid #dce3ed;
+        box-shadow: none;
+      }
+      #documentViewport {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: 75dvh;
         padding: 16px;
       }
       nav > div:last-child:not(.settings-title) {
-        bottom: -16px;
-        margin: 0 -16px -16px;
-        padding: 12px 16px;
+        bottom: 0;
+        margin-bottom: -16px;
       }
     }
     @media print {
